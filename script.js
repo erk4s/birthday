@@ -6,13 +6,13 @@
   // ---------- Контент ----------
   $("introText").textContent = C.introText;
   $("herName").textContent = C.herName;
+  $("lampText").innerHTML = esc(C.lightText || "Гэрэл асаах") + (C.lightHint ? `<small>${esc(C.lightHint)}</small>` : "");
   if (C.birthDate) {
     const b = new Date(C.birthDate + "T00:00:00"), n = new Date();
     if (!isNaN(b)) {
       let age = n.getFullYear() - b.getFullYear();
       if (n.getMonth() < b.getMonth() || (n.getMonth() === b.getMonth() && n.getDate() < b.getDate())) age--;
       if (age > 0) {
-        $("eyebrow").textContent = age + " насны төрсөн өдрийн мэнд";
         $("cakeAge").textContent = age;
       }
     }
@@ -193,11 +193,25 @@
     else if (e.key === "ArrowRight") showPhoto(cur + 1);
   });
 
-  // ---------- Хуудас нээгдэхэд ----------
-  renderCounter();
-  typeTagline();
-  setTimeout(() => burst(140), 400);
-  if (C.music) addEventListener("pointerdown", () => audio.play().catch(() => {}), { once: true });
+  // ---------- Эхний дэлгэц: гэрэл асаах ----------
+  const dark = $("darkIntro"), lampBtn = $("lightBtn");
+  let lit = false;
+  lampBtn.addEventListener("click", () => {
+    if (lit) return;
+    lit = true;
+    dark.classList.add("on");
+    if (C.music) audio.play().catch(() => {});
+    const t = reduceMotion ? 0 : 1000;
+    setTimeout(() => {
+      $("site").classList.remove("hidden");
+      scrollTo(0, 0);
+      renderCounter();
+      typeTagline();
+      burst(180);
+    }, t);
+    setTimeout(() => dark.classList.add("gone"), t + 200);
+    setTimeout(() => dark.remove(), t + 1400);
+  });
 
   // ---------- Захидал задлах ----------
   const env = $("envelope"), wrap = $("letterWrap");

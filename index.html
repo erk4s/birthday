@@ -14,10 +14,20 @@
   <canvas id="hearts" aria-hidden="true"></canvas>
   <canvas id="confetti" aria-hidden="true"></canvas>
 
-  <main id="site" class="site">
+  <!-- Эхний дэлгэц: гэрэл асаах -->
+  <section id="darkIntro" class="dark-intro" aria-label="Нээлт">
+    <div id="glow" class="glow" aria-hidden="true"></div>
+    <button id="lightBtn" class="lamp" type="button" aria-label="Гэрэл асаах">
+      <span class="cord" aria-hidden="true"></span>
+      <span class="socket" aria-hidden="true"></span>
+      <span class="bulb" aria-hidden="true"><i></i></span>
+      <span id="lampText" class="lamp-text"></span>
+    </button>
+  </section>
+
+  <main id="site" class="site hidden">
     <!-- Hero -->
     <header class="hero">
-      <p id="eyebrow" class="eyebrow">Төрсөн өдрийн мэнд</p>
       <h1 id="herName"></h1>
       <p id="tagline" class="tagline"></p>
       <div id="counter" class="counter" hidden></div>
