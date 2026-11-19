@@ -141,6 +141,64 @@
   const audio = $("music");
   if (C.music) audio.src = C.music;
 
+  // ---------- Төрсөн өдрийн ая ----------
+  // config.js-д music файл байвал түүнийг, үгүй бол хөтөч дотор Web Audio-оор аялгуу тоглуулна.
+  let actx = null, master = null, muted = false, loopTimer = null;
+  const LOOP_GAP = 1.5; // давталтын хооронд хэдэн секунд амрах
+  const NOTE = { G4: 392.0, A4: 440.0, B4: 493.88, C5: 523.25, D5: 587.33, E5: 659.25, F5: 698.46, G5: 783.99 };
+  const SONG = [["G4", .75], ["G4", .25], ["A4", 1], ["G4", 1], ["C5", 1], ["B4", 2],
+    ["G4", .75], ["G4", .25], ["A4", 1], ["G4", 1], ["D5", 1], ["C5", 2],
+    ["G4", .75], ["G4", .25], ["G5", 1], ["E5", 1], ["C5", 1], ["B4", 1], ["A4", 1],
+    ["F5", .75], ["F5", .25], ["E5", 1], ["C5", 1], ["D5", 1], ["C5", 3]];
+  function playTune() {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    try {
+      actx = actx || new AC();
+      if (actx.resume) actx.resume();
+      clearTimeout(loopTimer);
+      if (master) master.disconnect();
+      master = actx.createGain();
+      master.gain.value = 0.9;
+      master.connect(actx.destination);
+      const beat = 0.58;
+      let t = actx.currentTime + 0.08;
+      SONG.forEach(([n, d]) => {
+        const len = d * beat, end = t + Math.max(len * 1.7, 0.6);
+        [[1, 0.5], [2, 0.17], [3, 0.07]].forEach(([mult, amp]) => {
+          const o = actx.createOscillator(), g = actx.createGain();
+          o.type = "sine";
+          o.frequency.value = NOTE[n] * mult;
+          g.gain.setValueAtTime(0, t);
+          g.gain.linearRampToValueAtTime(amp * 0.32, t + 0.012);
+          g.gain.exponentialRampToValueAtTime(0.0006, end);
+          o.connect(g); g.connect(master);
+          o.start(t); o.stop(end + 0.05);
+        });
+        t += len;
+      });
+      // Дуусмагц тасралтгүй дахин эхлүүлнэ
+      loopTimer = setTimeout(() => { if (!muted) playTune(); }, (t - actx.currentTime + LOOP_GAP) * 1000);
+    } catch (e) { /* дуу гарахгүй байсан ч хуудас ажиллана */ }
+  }
+  function startMusic() {
+    if (muted) return;
+    if (C.music) audio.play().catch(() => {});
+    else playTune();
+  }
+  const soundBtn = $("soundBtn");
+  soundBtn.addEventListener("click", () => {
+    muted = !muted;
+    soundBtn.textContent = muted ? "🔇" : "🔊";
+    soundBtn.setAttribute("aria-pressed", String(muted));
+    soundBtn.setAttribute("aria-label", muted ? "Дууг нээх" : "Дууг хаах");
+    if (muted) {
+      clearTimeout(loopTimer);
+      if (C.music) audio.pause();
+      else if (master) master.gain.setTargetAtTime(0, actx.currentTime, 0.05);
+    } else startMusic();
+  });
+
   // ---------- Бэлэг задлах (хуудасны хамгийн доор) ----------
   const giftSec = $("giftSection"), giftBtn = $("openBtn");
   giftBtn.addEventListener("click", () => {
@@ -200,7 +258,6 @@
     if (lit) return;
     lit = true;
     dark.classList.add("on");
-    if (C.music) audio.play().catch(() => {});
     const t = reduceMotion ? 0 : 1000;
     setTimeout(() => {
       $("site").classList.remove("hidden");
@@ -208,6 +265,8 @@
       renderCounter();
       typeTagline();
       burst(180);
+      soundBtn.hidden = false;
+      startMusic();
     }, t);
     setTimeout(() => dark.classList.add("gone"), t + 200);
     setTimeout(() => dark.remove(), t + 1400);
@@ -230,6 +289,7 @@
     $("blowBtn").disabled = true;
     $("wish").textContent = C.wishText;
     burst(260);
+    startMusic();
   });
 
   // ---------- Дахин ----------

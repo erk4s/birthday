@@ -259,3 +259,12 @@ h1 {
 .dark-intro.on .bulb i { border-color: #fff; }
 .dark-intro.on .lamp-text { opacity: 0; animation: none; }
 .lamp-text small { display: block; margin-top: 0.7rem; font-family: var(--sans); font-style: normal; font-size: 0.78rem; letter-spacing: 0.14em; color: #8a7079; }
+
+/* Захидлын бичвэр: гар бичмэл фонт (Ү, Ө үсгийг бүрэн дэмждэг) */
+.paper { font-family: "Bad Script", "Segoe Script", "Bradley Hand", cursive; font-size: clamp(1.1rem, 3.2vw, 1.35rem); line-height: 1.85; }
+.paper .sign { font-style: normal; }
+
+/* Дууны товч */
+.sound-btn { position: fixed; right: 1rem; bottom: 1rem; z-index: 30; width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line); background: rgba(42, 10, 26, 0.7); backdrop-filter: blur(8px); font-size: 1.25rem; line-height: 1; cursor: pointer; color: inherit; transition: transform 0.2s, background 0.2s; }
+.sound-btn:hover { transform: scale(1.08); background: rgba(74, 18, 48, 0.85); }
+.sound-btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
