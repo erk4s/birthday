@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="mn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Төрсөн өдрийн мэнд 🎂</title>
+  <meta name="theme-color" content="#2a0a1a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,800;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="hearts" aria-hidden="true"></canvas>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <main id="site" class="site">
+    <!-- Hero -->
+    <header class="hero">
+      <p id="eyebrow" class="eyebrow">Төрсөн өдрийн мэнд</p>
+      <h1 id="herName"></h1>
+      <p id="tagline" class="tagline"></p>
+      <div id="counter" class="counter" hidden></div>
+      <a href="#letter" class="scroll" aria-label="Доош гүйлгэх">↓</a>
+    </header>
+
+    <!-- Захидал -->
+    <section id="letter" class="section reveal">
+      <h2>Чамд зориулсан захидал</h2>
+      <div id="letterWrap" class="letter-wrap">
+        <div class="letter-inner">
+          <div class="paper">
+            <div id="letterBody"></div>
+            <p class="sign" id="sign"></p>
+          </div>
+        </div>
+      </div>
+      <button id="envelope" class="envelope" type="button" aria-expanded="false" aria-controls="letterWrap">
+        <span class="env-back"></span>
+        <span class="env-flap"></span>
+        <span class="env-front"></span>
+        <span class="env-seal">💌</span>
+        <span class="env-hint">Захидлыг задлах</span>
+      </button>
+    </section>
+
+    <!-- Дурсамж -->
+    <section id="memories" class="section reveal">
+      <h2>Бидний дурсамж</h2>
+      <div id="gallery" class="polaroids"></div>
+    </section>
+
+    <!-- Бялуу -->
+    <section class="section cake-section reveal">
+      <h2>Хүслээ шивнээд лаагаа үлээ</h2>
+      <div id="cake" class="cake" role="img" aria-label="Төрсөн өдрийн бялуу">
+        <div class="flame"></div>
+        <div class="candle"></div>
+        <div class="layer l1"></div>
+        <div class="layer l2"></div>
+        <div id="cakeAge" class="cake-age" aria-hidden="true"></div>
+        <div class="plate"></div>
+      </div>
+      <button id="blowBtn" class="btn">Лаа үлээх 💨</button>
+      <p id="wish" class="wish" aria-live="polite"></p>
+    </section>
+
+    <!-- Бэлэг (хамгийн доор) -->
+    <section id="giftSection" class="section gift-section reveal">
+      <div class="caption">
+        <h2 id="introText" class="cap-a"></h2>
+        <div id="giftReveal" class="cap-b" aria-live="polite">
+          <h3 id="giftName"></h3>
+          <p id="giftText"></p>
+        </div>
+      </div>
+
+      <div id="giftbox" class="giftbox" aria-hidden="true">
+        <div class="g-phone">
+          <div class="phone">
+            <i class="isl"></i>
+            <div class="scr">
+              <b class="clk">9:41</b>
+              <div class="note"><span>💌</span><p id="noteText"></p></div>
+              <em class="ph-name">iPhone</em>
+            </div>
+          </div>
+        </div>
+        <div class="g-body"><span class="g-rib"></span></div>
+        <div class="g-lid"><span class="g-rib"></span><span class="g-bow">🎀</span></div>
+      </div>
+
+      <button id="openBtn" class="btn gift-btn">Бэлгээ задлах ✨</button>
+    </section>
+
+    <footer class="footer">
+      <p id="footer"></p>
+      <button id="replayBtn" class="link">🎉 Дахин баяр тэмдэглэе</button>
+    </footer>
+  </main>
+
+  <div id="lightbox" class="lightbox" hidden role="dialog" aria-modal="true" aria-label="Зураг">
+    <button class="lb-btn lb-close" aria-label="Хаах">×</button>
+    <button class="lb-btn lb-prev" aria-label="Өмнөх">‹</button>
+    <img id="lbImg" alt="">
+    <button class="lb-btn lb-next" aria-label="Дараах">›</button>
+  </div>
+
+  <audio id="music" loop preload="none"></audio>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
